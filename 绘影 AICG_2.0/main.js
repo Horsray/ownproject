@@ -9217,6 +9217,7 @@ var render = function render() {
 _c("div", { staticClass: "mode-select-row" }, [
 
   // ✅ 本地模式按钮
+  // ✅ 本地模式按钮
   _c("label", { staticClass: "mode-radio" }, [
     _c("input", {
       attrs: { type: "radio", name: "mode" },
@@ -9240,6 +9241,7 @@ change: function ($event) {
 
   // ✅ UI 提示立即生效
   _vm.$toast && _vm.$toast("已选择：本地模式", "info");
+    _vm.onModeChange("local");
 },
       },
     }),
@@ -9272,6 +9274,7 @@ change: function ($event) {
 
   // ✅ UI 提示立即生效
   _vm.$toast && _vm.$toast("已选择：云端模式", "info");
+    _vm.onModeChange("cloud");
 },
       },
     }),
@@ -9305,19 +9308,19 @@ data() {
   };
 },
 
-mounted() {
-  const storedMode = storage.localStorage.getItem("mode");
-  const clickTime = storage.localStorage.getItem("mode_click_time");
+// mounted() {
+//   const storedMode = storage.localStorage.getItem("mode");
+//   const clickTime = storage.localStorage.getItem("mode_click_time");
 
-  if (storedMode && clickTime) {
-    this.mode = storedMode;
-  } else {
-    this.mode = "cloud";
-    const now = Date.now();
-    storage.localStorage.setItem("mode", "cloud");
-    storage.localStorage.setItem("mode_click_time", now.toString());
-  }
-},
+//   if (storedMode && clickTime) {
+//     this.mode = storedMode;
+//   } else {
+//     this.mode = "cloud";
+//     const now = Date.now();
+//     storage.localStorage.setItem("mode", "cloud");
+//     storage.localStorage.setItem("mode_click_time", now.toString());
+//   }
+// },
 
 methods: {
   onModeChange(mode) {
