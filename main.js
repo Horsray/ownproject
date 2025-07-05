@@ -4794,6 +4794,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     font-size: 16px;
     font-weight: 600;
     text-shadow: 0 0 5px rgba(180, 124, 250, 0.8);  /* 文字阴影 */
+    animation: pulse-7069bebf 1.5s ease-in-out infinite;
 }
 
 /* 动画效果，控制进度条的宽度从 0% 到 100% */
@@ -4818,6 +4819,15 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     }
     to {
         box-shadow: 0 0 20px #b47cfa;
+    }
+}
+
+@keyframes pulse-7069bebf {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
     }
 }
 
@@ -5282,6 +5292,8 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
   }
   .mode-radio input[type="radio"][data-v-19e76240] {
     display: none;
+    -webkit-appearance: none;
+    appearance: none;
   }
   .mode-radio span.radio-mark[data-v-19e76240] {
     margin-right: 6px;
@@ -6203,6 +6215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
+
 /* harmony import */ var _components_Loading_index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Loading/index.vue */ "./src/components/Loading/index.vue");
 
 
@@ -7365,8 +7378,9 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
     // this.linkStatus = this.comfyuiUrl ? true : false;
     // 初始化日志容器
     (0,_utils_log__WEBPACK_IMPORTED_MODULE_2__.initLogContainer)(".log_content");
-    const modeMsg = (storage.localStorage.getItem("mode") || "cloud") ===
-      "local" ? "本地" : "云端";
+    const curMode = localStorage.getItem("mode") ||
+      storage.localStorage.getItem("mode") || "cloud";
+    const modeMsg = curMode === "local" ? "本地" : "云端";
     (0,_utils_log__WEBPACK_IMPORTED_MODULE_2__.pushLog)(`欢迎使用绘影专属PS插件。当前为${modeMsg}模式`);
   },
   methods: {
@@ -7507,7 +7521,8 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
     };
   },
   mounted() {
-    const storedMode = storage.localStorage.getItem("mode") || "cloud";
+    const storedMode = localStorage.getItem("mode") ||
+      storage.localStorage.getItem("mode") || "cloud";
     this.mode = storedMode;
   },
   methods: {
@@ -9253,13 +9268,14 @@ var render = function render() {
         // ✅ 本地模式按钮
         _c("label", { staticClass: "mode-radio" }, [
           _c("input", {
-            attrs: { type: "radio", name: "mode" },
+            attrs: { type: "radio", name: "mode", checked: _vm.mode === "local" },
             domProps: { checked: _vm.mode === "local" },
             on: {
               change: function ($event) {
                 _vm.mode = "local";
                 _vm.login_type = "local_mode";
                 localStorage.setItem("login_type", "local_mode");
+                storage.localStorage.setItem("login_type", "local_mode");
                 _vm.$toast && _vm.$toast("已选择：本地模式", "info");
                 _vm.onModeChange("local");
                 location.reload();
@@ -9273,13 +9289,14 @@ var render = function render() {
         // ✅ 云端模式按钮
         _c("label", { staticClass: "mode-radio" }, [
           _c("input", {
-            attrs: { type: "radio", name: "mode" },
+            attrs: { type: "radio", name: "mode", checked: _vm.mode === "cloud" },
             domProps: { checked: _vm.mode === "cloud" },
             on: {
               change: function ($event) {
                 _vm.mode = "cloud";
                 _vm.login_type = "cloud_mode";
                 localStorage.setItem("login_type", "cloud_mode");
+                storage.localStorage.setItem("login_type", "cloud_mode");
                 _vm.$toast && _vm.$toast("已选择：云端模式", "info");
                 _vm.onModeChange("cloud");
                 location.reload();
@@ -9309,9 +9326,12 @@ render._withStripped = true;
 
 //data 部分
 data() {
-  const storedMode = storage.localStorage.getItem("mode") || "cloud";
-  if (!storage.localStorage.getItem("mode")) {
+  const storedMode = localStorage.getItem("mode") ||
+    storage.localStorage.getItem("mode") || "cloud";
+  if (!localStorage.getItem("mode") && !storage.localStorage.getItem("mode")) {
+    localStorage.setItem("mode", "cloud");
     storage.localStorage.setItem("mode", "cloud");
+    localStorage.setItem("login_type", "cloud_mode");
     storage.localStorage.setItem("login_type", "cloud_mode");
   }
   return {
@@ -9340,7 +9360,9 @@ methods: {
     this.mode = mode;
     const now = Date.now();
     storage.localStorage.setItem("mode", mode);
+    localStorage.setItem("mode", mode);
     storage.localStorage.setItem("mode_click_time", now.toString());
+    localStorage.setItem("mode_click_time", now.toString());
     location.reload(); // 强制刷新，SERVER_BASE_URL 会重新设定
   },
 },
@@ -24147,6 +24169,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./src/router/index.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./src/constants.js");
+const storage = require("uxp").storage;
 
 
 
@@ -24170,8 +24193,8 @@ service.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    const mode = localStorage.getItem('mode') || 'cloud';
-    const loginType = localStorage.getItem('login_type') || (mode === 'local' ? 'local_mode' : 'cloud_mode');
+    const mode = localStorage.getItem('mode') || storage?.localStorage?.getItem('mode') || 'cloud';
+    const loginType = localStorage.getItem('login_type') || storage?.localStorage?.getItem('login_type') || (mode === 'local' ? 'local_mode' : 'cloud_mode');
     config.baseURL = loginType === 'local_mode'
       ? 'http://192.168.2.6:8080'
       : 'https://umanage.lightcc.cloud/prod-api';
@@ -24402,6 +24425,8 @@ if (typeof document !== "undefined") {
   /* ✅ 美化模式选择按钮的样式 */
   .mode-radio input[type="radio"] {
     display: none;
+    -webkit-appearance: none;
+    appearance: none;
   }
   .mode-radio span.radio-mark {
     margin-right: 6px;
