@@ -5288,17 +5288,17 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
   }
   /* 👇 仅作用于 登录页中的模式选择按钮 */
   .mode-radio .el-radio__input {
-    background-color: #2c2c30 !important;
+    background-color: transparent !important;
     border: 1px solid #666 !important;
-    border-radius: 6px !important;
+    border-radius: 50% !important;
     width: 16px;
     height: 16px;
     box-shadow: none !important;
   }
     label.mode-radio > .el-radio__input > .el-radio__inner {
-    background-color: #2c2c30 !important;
+    background-color: transparent !important;
     border: 1px solid #666 !important;
-    border-radius: 6px !important;
+    border-radius: 50% !important;
     width: 14px;
     height: 14px;
   }
@@ -5306,6 +5306,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
   label.mode-radio > .el-radio__input.is-checked > .el-radio__inner {
     background-color: #ff6a00 !important;
     border-color: #ff6a00 !important;
+    border-radius: 50% !important;
   }
   /* 登录按钮样式 */
   .login_btn[data-v-19e76240] {
@@ -9304,8 +9305,13 @@ render._withStripped = true;
 
 //data 部分
 data() {
+  const storedMode = storage.localStorage.getItem("mode") || "cloud";
+  if (!storage.localStorage.getItem("mode")) {
+    storage.localStorage.setItem("mode", "cloud");
+    storage.localStorage.setItem("login_type", "cloud_mode");
+  }
   return {
-    mode: "", // 初始留空，由 mounted 动态设置
+    mode: storedMode,
     showLoginError: false,
     loginErrorMsg: "",
   };
@@ -24386,9 +24392,9 @@ if (typeof document !== "undefined") {
   style.innerHTML += `
 /* ✅ 美化模式选择按钮的内部方块样式 */
 .mode-radio .el-radio__inner {
-  background-color: #2c2c30 !important;
+  background-color: transparent !important;
   border: 1px solid #666 !important;
-  border-radius: 6px !important;
+  border-radius: 50% !important;
   width: 14px;
   height: 14px;
 }
@@ -24396,6 +24402,7 @@ if (typeof document !== "undefined") {
 .mode-radio .el-radio__input.is-checked .el-radio__inner {
   background-color: #ff6a00 !important;
   border-color: #ff6a00 !important;
+  border-radius: 50% !important;
 }
 `;
   document.head.appendChild(style);
