@@ -1,4 +1,15 @@
-/******/ (() => { // webpackBootstrap
+var __uxp_runtime__ = (typeof window !== "undefined" && (typeof window.uxp !== "undefined" || typeof require === "function"));
+if(!__uxp_runtime__){
+  document.addEventListener("DOMContentLoaded", function(){
+    var warning = document.createElement("p");
+    warning.textContent = "Please install this plugin in Photoshop to run.";
+    warning.style.textAlign = "center";
+    warning.style.fontFamily = "sans-serif";
+    document.body.appendChild(warning);
+  });
+} else {
+
+ /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
@@ -24440,9 +24451,10 @@ if (typeof document !== "undefined") {
 `;
   document.head.appendChild(style);
   style.innerHTML += `\n  .agent-link {\n    display: block;\n    text-align: right;\n    margin-top: 8px;\n    color: var(--primary-color);\n    font-size: 12px;\n    cursor: pointer;\n  }`;
-  document.addEventListener('DOMContentLoaded', function() {
+  function insertAgentLink() {
     var btn = document.querySelector('.login_btn');
-    if (btn) {
+    if (!btn) return false;
+    if (!btn.parentNode.querySelector('.agent-link')) {
       var link = document.createElement('span');
       link.className = 'agent-link';
       link.textContent = '诚招代理';
@@ -24451,5 +24463,21 @@ if (typeof document !== "undefined") {
       });
       btn.parentNode.appendChild(link);
     }
-  });
-}
+    return true;
+  }
+
+  function waitForBtn() {
+    var tries = 0;
+    var timer = setInterval(function() {
+      if (insertAgentLink() || ++tries > 10) {
+        clearInterval(timer);
+      }
+    }, 300);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', waitForBtn);
+  } else {
+    waitForBtn();
+  }
+}}
