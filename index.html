@@ -1,44 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="./main.js"></script>
-    <style>
-      div {
-        margin: auto;
+    <script>
+      // Only load the main bundle when running inside Photoshop/UXP
+      if (typeof window.uxp !== 'undefined' || typeof require === 'function') {
+        const s = document.createElement('script');
+        s.src = './main.js';
+        document.head.appendChild(s);
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          const warning = document.createElement('p');
+          warning.textContent = 'Please install this plugin in Photoshop to run.';
+          warning.style.textAlign = 'center';
+          warning.style.fontFamily = 'sans-serif';
+          document.body.appendChild(warning);
+        });
       }
-      .agent-link {
-        display: block;
-        text-align: right;
-        margin-top: 8px;
-        color: var(--primary-color);
-        font-size: 14px;
-        cursor: pointer;
-      }
-    </style>
+    </script>
   </head>
+  <style>
+    div {
+      margin: auto;
+    }
+  </style>
 
   <body>
     <div>
       <div id="container"></div>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        function addAgentLink() {
-          var btn = document.querySelector('.login_btn');
-          if (!btn) {
-            setTimeout(addAgentLink, 300);
-            return;
-          }
-          var link = document.createElement('span');
-          link.className = 'agent-link';
-          link.textContent = '诚招代理';
-          link.addEventListener('click', function() {
-            alert('全网唯一授权微信：252594598');
-          });
-          btn.parentNode.appendChild(link);
-        }
-        addAgentLink();
-      });
-    </script>
   </body>
 </html>

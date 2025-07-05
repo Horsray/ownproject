@@ -24439,4 +24439,17 @@ if (typeof document !== "undefined") {
   }
 `;
   document.head.appendChild(style);
+  style.innerHTML += `\n  .agent-link {\n    display: block;\n    text-align: right;\n    margin-top: 8px;\n    color: var(--primary-color);\n    font-size: 12px;\n    cursor: pointer;\n  }`;
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.querySelector('.login_btn');
+    if (btn) {
+      var link = document.createElement('span');
+      link.className = 'agent-link';
+      link.textContent = '诚招代理';
+      link.addEventListener('click', function() {
+        alert('全网唯一授权微信：252594598');
+      });
+      btn.parentNode.appendChild(link);
+    }
+  });
 }
