@@ -2,16 +2,43 @@
 <html>
   <head>
     <script src="./main.js"></script>
+    <style>
+      div {
+        margin: auto;
+      }
+      .agent-link {
+        display: block;
+        text-align: right;
+        margin-top: 8px;
+        color: var(--primary-color);
+        font-size: 14px;
+        cursor: pointer;
+      }
+    </style>
   </head>
-  <style>
-    div {
-      margin: auto;
-    }
-  </style>
 
   <body>
     <div>
       <div id="container"></div>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        function addAgentLink() {
+          var btn = document.querySelector('.login_btn');
+          if (!btn) {
+            setTimeout(addAgentLink, 300);
+            return;
+          }
+          var link = document.createElement('span');
+          link.className = 'agent-link';
+          link.textContent = '诚招代理';
+          link.addEventListener('click', function() {
+            alert('全网唯一授权微信：252594598');
+          });
+          btn.parentNode.appendChild(link);
+        }
+        addAgentLink();
+      });
+    </script>
   </body>
 </html>
