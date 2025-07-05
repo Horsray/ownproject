@@ -24167,6 +24167,11 @@ service.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
+    const mode = localStorage.getItem('mode') || 'cloud';
+    const loginType = localStorage.getItem('login_type') || (mode === 'local' ? 'local_mode' : 'cloud_mode');
+    config.baseURL = loginType === 'local_mode'
+      ? 'http://192.168.2.6:8080'
+      : 'https://umanage.lightcc.cloud/prod-api';
     return config;
   },
   error => {
