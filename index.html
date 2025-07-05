@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="./main.js"></script>
+    <script>
+      // Only load the main bundle when running inside Photoshop/UXP
+      if (typeof window.uxp !== 'undefined' || typeof require === 'function') {
+        const s = document.createElement('script');
+        s.src = './main.js';
+        document.head.appendChild(s);
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          const warning = document.createElement('p');
+          warning.textContent = 'Please install this plugin in Photoshop to run.';
+          warning.style.textAlign = 'center';
+          warning.style.fontFamily = 'sans-serif';
+          document.body.appendChild(warning);
+        });
+      }
+    </script>
   </head>
   <style>
     div {

@@ -1,1 +1,7 @@
-this is a plugin for PS.it can connect comfyui and ps to make some pictures.the plugin needs to connect a proxy servers,and then,the proxy would use a standerd issue of comfyui to send promt api.
+This is a Photoshop UXP plugin that connects ComfyUI with Photoshop to generate pictures.
+
+**Usage**
+1. Install the plugin in Photoshop using UXP Developer Tools or by copying this folder to the plugin directory.
+2. Open the panel named **绘影·AICG** from the Plugins menu.
+
+Opening `index.html` directly in a browser will not work because the code relies on UXP runtime APIs.
