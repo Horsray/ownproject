@@ -4776,18 +4776,16 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     flex-direction: column;
     align-items: center;
     position: relative;  /* 添加 position: relative */
-    top: -5%; /* 调整进度条和文字的位置 */
+    top: -10%; /* 调整进度条和文字的位置 */
 }
 
 .spinner[data-v-7069bebf] {
-    width: 120px;  /* 长条形的宽度 */
-    height: 10px;  /* 高度 */
-    background-color:rgb(238, 151, 38);  /* 背景色 */
-    position: relative;
-    overflow: hidden;
-    border-radius: 5px;  /* 圆角 */
-    z-index: 9999;  /* 确保进度条位于最上层 */
-    animation: loading 2s infinite ease-out;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: rgb(238, 151, 38);
+    border-radius: 50%;
+    animation: spin-7069bebf 1s linear infinite;
 }
 
 .loading-text[data-v-7069bebf] {
@@ -5262,28 +5260,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     align-items: center; /* 水平居中对齐 */
     justify-content: center; /* 垂直居中对齐 */
   }
-
-  /* 登录按钮样式 */
-  .login_btn[data-v-19e76240] {
-    height: 41px; /* 设置高度为41px */
-    width: 100%; /* 设置宽度为100% */
-    background: var(--third-color); /* 设置背景色为第三色变量 */
-    box-shadow: 2px 7px 8px 0px rgba(32,32,36,0.53); /* 设置阴影效果 */
-    border-radius: 20px; /* 设置圆角 */
-    color: white; /* 设置字体颜色为白色 */
-    font-size: 18px; /* 设置字体大小 */
-    text-align: center; /* 文本居中 */
-    line-height: 41px; /* 设置行高与按钮高度相等，文本垂直居中 */
-    margin-top: 10px !important; /* 设置顶部外边距，并强制覆盖其他样式 */
-    cursor: pointer; /* 设置鼠标为指针 */
-    font-weight: bold; /* 设置加粗 */
-  }
-
-  /* 登录按钮的悬停效果 */
-  .login_btn[data-v-19e76240]:hover {
-    background: var(--primary-color); /* 悬停时背景颜色改变为主色 */
-  }
-
   /* 新增：本地/云端模式选择按钮样式 */
   .mode-select-row[data-v-19e76240] {
     width: 100%;
@@ -5310,18 +5286,49 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     width: 14px;
     height: 14px;
   }
-
-  /* 登录页日志显示区域样式 */
-  .login-log[data-v-19e76240] {
-    width: 100%;
-    min-height: 22px;
-    margin-top: 18px;
-    color: #E09641;
-    font-size: 14px;
-    text-align: center;
-    word-break: break-all;
-    letter-spacing: 0.5px;
+  /* 👇 仅作用于 登录页中的模式选择按钮 */
+  .mode-radio .el-radio__input {
+    background-color: #2c2c30 !important;
+    border: 1px solid #666 !important;
+    border-radius: 6px !important;
+    width: 16px;
+    height: 16px;
+    box-shadow: none !important;
   }
+    label.mode-radio > .el-radio__input > .el-radio__inner {
+    background-color: #2c2c30 !important;
+    border: 1px solid #666 !important;
+    border-radius: 6px !important;
+    width: 14px;
+    height: 14px;
+  }
+
+  label.mode-radio > .el-radio__input.is-checked > .el-radio__inner {
+    background-color: #ff6a00 !important;
+    border-color: #ff6a00 !important;
+  }
+  /* 登录按钮样式 */
+  .login_btn[data-v-19e76240] {
+    height: 41px; /* 设置高度为41px */
+    width: 100%; /* 设置宽度为100% */
+    background: var(--third-color); /* 设置背景色为第三色变量 */
+    box-shadow: 2px 7px 8px 0px rgba(32,32,36,0.53); /* 设置阴影效果 */
+    border-radius: 20px; /* 设置圆角 */
+    color: white; /* 设置字体颜色为白色 */
+    font-size: 18px; /* 设置字体大小 */
+    text-align: center; /* 文本居中 */
+    line-height: 41px; /* 设置行高与按钮高度相等，文本垂直居中 */
+    margin-top: 10px !important; /* 设置顶部外边距，并强制覆盖其他样式 */
+    cursor: pointer; /* 设置鼠标为指针 */
+    font-weight: bold; /* 设置加粗 */
+  }
+
+  /* 登录按钮的悬停效果 */
+  .login_btn[data-v-19e76240]:hover {
+    background: var(--primary-color); /* 悬停时背景颜色改变为主色 */
+  }
+
+
 `,""]);
 
 // Exports
@@ -7510,6 +7517,8 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
       'clientId': _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CLIENTID,
       'grantType': 'password'
     }
+    // 根据模式选择登录接口地址
+    //let loginUrl = SERVER_BASE_URL()
     try {
       if (!this.verifyAccountPassword()) {
         return;
@@ -7548,6 +7557,8 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
 
 
 /***/ }),
+
+
 
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/App.vue?vue&type=template&id=7ba5bd90":
 /*!*******************************************************************************************************************************************************************************************!*\
@@ -7710,7 +7721,27 @@ var render = function render() {
 var staticRenderFns = [];
 render._withStripped = true;
 
-
+// 以下为返回按钮的美化样式（确保作用域一致）
+if (typeof document !== 'undefined') {
+  var style = document.createElement('style');
+  style.innerHTML = `
+  .cancel-button[data-v-7069bebf] {
+      background-color: #222;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      margin-top: 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  .cancel-button[data-v-7069bebf]:hover {
+      background-color: #444;
+  }
+  `;
+  document.head.appendChild(style);
+}
 
 /***/ }),
 
@@ -9214,69 +9245,46 @@ var render = function render() {
       }),
       _vm._v(" "),
       // 模式选择按钮（单选，默认云端模式）
-// 模式选择按钮（单选，默认云端模式）
-_c("div", { staticClass: "mode-select-row" }, [
-
-  // ✅ 本地模式按钮
-  // ✅ 本地模式按钮
-  _c("label", { staticClass: "mode-radio" }, [
-    _c("input", {
-      attrs: { type: "radio", name: "mode" },
-      domProps: { checked: _vm.mode === "local" },
-      on: {
-change: function ($event) {
-  _vm.mode = "local";
-  _vm.login_type = "local_mode";
-
-  // ✅ UI 显示使用传统写法
-  localStorage.setItem("login_type", "local_mode");
-
-  // ✅ 后台持久化使用 UXP，不依赖其返回
-  // try {
-  //   uxp.storage.localStorage.setItem("mode", "local");
-  //   uxp.storage.localStorage.setItem("login_type", "local_mode");
-  //   uxp.storage.localStorage.setItem("mode_click_time", Date.now().toString());
-  // } catch (e) {
-  //   console.warn("UXP 写入失败：", e);
-  // }
-
-  // ✅ UI 提示立即生效
-  _vm.$toast && _vm.$toast("已选择：本地模式", "info");
-    _vm.onModeChange("local");
-    location.reload(); // 强制刷新，SERVER_BASE_URL 会重新设定
-},
-      },
-    }),
-    _vm._v("本地模式"),
-  ]),
-
-  _vm._v(" "),
-
-  // ✅ 云端模式按钮
-  _c("label", { staticClass: "mode-radio" }, [
-    _c("input", {
-      attrs: { type: "radio", name: "mode" },
-      domProps: { checked: _vm.mode === "cloud" },
-      on: {
-change: function ($event) {
-  _vm.mode = "cloud";
-  _vm.login_type = "cloud_mode";
-
-  // ✅ 兼容性：UI 显示使用传统写法
-  localStorage.setItem("login_type", "cloud_mode");
-  // ✅ UI 提示立即生效
-  _vm.$toast && _vm.$toast("已选择：云端模式", "info");
-    _vm.onModeChange("cloud");
-    location.reload(); // 强制刷新，SERVER_BASE_URL 会重新设定
-    
-},
-      },
-    }),
-    _vm._v("云端模式"),
-    
-  ]),
-
-]),
+      // 模式选择按钮（单选，默认云端模式）
+      _c("div", { staticClass: "mode-select-row" }, [
+        // ✅ 本地模式按钮
+        _c("label", { staticClass: "mode-radio" }, [
+          _c("input", {
+            attrs: { type: "radio", name: "mode" },
+            domProps: { checked: _vm.mode === "local" },
+            on: {
+              change: function ($event) {
+                _vm.mode = "local";
+                _vm.login_type = "local_mode";
+                localStorage.setItem("login_type", "local_mode");
+                _vm.$toast && _vm.$toast("已选择：本地模式", "info");
+                _vm.onModeChange("local");
+                location.reload();
+              },
+            },
+          }),
+          _vm._v("本地模式"),
+        ]),
+        _vm._v(" "),
+        // ✅ 云端模式按钮
+        _c("label", { staticClass: "mode-radio" }, [
+          _c("input", {
+            attrs: { type: "radio", name: "mode" },
+            domProps: { checked: _vm.mode === "cloud" },
+            on: {
+              change: function ($event) {
+                _vm.mode = "cloud";
+                _vm.login_type = "cloud_mode";
+                localStorage.setItem("login_type", "cloud_mode");
+                _vm.$toast && _vm.$toast("已选择：云端模式", "info");
+                _vm.onModeChange("cloud");
+                location.reload();
+              },
+            },
+          }),
+          _vm._v("云端模式"),
+        ]),
+      ]),
       _vm._v(" "),
       // 登录按钮
       _c("div", { staticClass: "login_btn", on: { click: _vm.handleLogin } }, [
@@ -24372,3 +24380,23 @@ entrypoints.setup({
 
 /******/ })()
 ;
+// 样式增强：美化模式选择按钮的内部方块样式
+if (typeof document !== "undefined") {
+  var style = document.createElement("style");
+  style.innerHTML += `
+/* ✅ 美化模式选择按钮的内部方块样式 */
+.mode-radio .el-radio__inner {
+  background-color: #2c2c30 !important;
+  border: 1px solid #666 !important;
+  border-radius: 6px !important;
+  width: 14px;
+  height: 14px;
+}
+/* ✅ 当选中时，显示橙色点 */
+.mode-radio .el-radio__input.is-checked .el-radio__inner {
+  background-color: #ff6a00 !important;
+  border-color: #ff6a00 !important;
+}
+`;
+  document.head.appendChild(style);
+}
