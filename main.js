@@ -5282,31 +5282,28 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
   }
   .mode-radio input[type="radio"][data-v-19e76240] {
     margin-right: 6px;
-    accent-color: var(--primary-color);
-    width: 14px;
-    height: 14px;
-  }
-  /* 👇 仅作用于 登录页中的模式选择按钮 */
-  .mode-radio .el-radio__input {
-    background-color: transparent !important;
-    border: 1px solid #666 !important;
-    border-radius: 50% !important;
+    -webkit-appearance: none;
+    appearance: none;
     width: 16px;
     height: 16px;
-    box-shadow: none !important;
+    border: 1px solid #666;
+    border-radius: 50%;
+    position: relative;
+    background-color: transparent;
   }
-    label.mode-radio > .el-radio__input > .el-radio__inner {
-    background-color: transparent !important;
-    border: 1px solid #666 !important;
-    border-radius: 50% !important;
-    width: 14px;
-    height: 14px;
+  .mode-radio input[type="radio"][data-v-19e76240]::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: transparent;
   }
-
-  label.mode-radio > .el-radio__input.is-checked > .el-radio__inner {
-    background-color: #ff6a00 !important;
-    border-color: #ff6a00 !important;
-    border-radius: 50% !important;
+  .mode-radio input[type="radio"][data-v-19e76240]:checked::before {
+    background-color: #ff6a00;
   }
   /* 登录按钮样式 */
   .login_btn[data-v-19e76240] {
@@ -24390,19 +24387,31 @@ entrypoints.setup({
 if (typeof document !== "undefined") {
   var style = document.createElement("style");
   style.innerHTML += `
-/* ✅ 美化模式选择按钮的内部方块样式 */
-.mode-radio .el-radio__inner {
-  background-color: transparent !important;
-  border: 1px solid #666 !important;
-  border-radius: 50% !important;
-  width: 14px;
-  height: 14px;
+/* ✅ 美化模式选择按钮的样式 */
+.mode-radio input[type="radio"] {
+  margin-right: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #666;
+  border-radius: 50%;
+  position: relative;
+  background-color: transparent;
 }
-/* ✅ 当选中时，显示橙色点 */
-.mode-radio .el-radio__input.is-checked .el-radio__inner {
-  background-color: #ff6a00 !important;
-  border-color: #ff6a00 !important;
-  border-radius: 50% !important;
+.mode-radio input[type="radio"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: transparent;
+}
+.mode-radio input[type="radio"]:checked::before {
+  background-color: #ff6a00;
 }
 `;
   document.head.appendChild(style);
