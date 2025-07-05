@@ -7365,7 +7365,9 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
     // this.linkStatus = this.comfyuiUrl ? true : false;
     // 初始化日志容器
     (0,_utils_log__WEBPACK_IMPORTED_MODULE_2__.initLogContainer)(".log_content");
-    (0,_utils_log__WEBPACK_IMPORTED_MODULE_2__.pushLog)("欢迎使用绘影专属PS插件");
+    const modeMsg = (storage.localStorage.getItem("mode") || "cloud") ===
+      "local" ? "本地" : "云端";
+    (0,_utils_log__WEBPACK_IMPORTED_MODULE_2__.pushLog)(`欢迎使用绘影专属PS插件。当前为${modeMsg}模式`);
   },
   methods: {
     // 处理Url
@@ -7505,7 +7507,8 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
     };
   },
   mounted() {
-
+    const storedMode = storage.localStorage.getItem("mode") || "cloud";
+    this.mode = storedMode;
   },
   methods: {
     // 登录
