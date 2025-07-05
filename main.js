@@ -1,4 +1,15 @@
-/******/ (() => { // webpackBootstrap
+var __uxp_runtime__ = (typeof window !== "undefined" && (typeof window.uxp !== "undefined" || typeof require === "function"));
+if(!__uxp_runtime__){
+  document.addEventListener("DOMContentLoaded", function(){
+    var warning = document.createElement("p");
+    warning.textContent = "Please install this plugin in Photoshop to run.";
+    warning.style.textAlign = "center";
+    warning.style.fontFamily = "sans-serif";
+    document.body.appendChild(warning);
+  });
+} else {
+
+ /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
@@ -24452,4 +24463,4 @@ if (typeof document !== "undefined") {
       btn.parentNode.appendChild(link);
     }
   });
-}
+}}
