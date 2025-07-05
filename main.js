@@ -7524,6 +7524,13 @@ const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
     const storedMode = localStorage.getItem("mode") ||
       storage.localStorage.getItem("mode") || "cloud";
     this.mode = storedMode;
+    this.$nextTick(() => {
+      const radios = document.querySelectorAll('input[name="mode"]');
+      if (radios.length >= 2) {
+        radios[0].checked = this.mode === 'local';
+        radios[1].checked = this.mode === 'cloud';
+      }
+    });
   },
   methods: {
     // 登录
@@ -7756,6 +7763,53 @@ if (typeof document !== 'undefined') {
   }
   .cancel-button[data-v-7069bebf]:hover {
       background-color: #444;
+  }
+  .global-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeIn-7069bebf 0.3s ease-in-out;
+  }
+  .loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      top: -10%;
+  }
+  .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: rgb(238, 151, 38);
+      border-radius: 50%;
+      animation: spin-7069bebf 1s linear infinite;
+  }
+  .loading-text {
+      margin-top: 20px;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(180, 124, 250, 0.8);
+      animation: pulse-7069bebf 1.5s ease-in-out infinite;
+  }
+  @keyframes spin-7069bebf {
+      to { transform: rotate(360deg); }
+  }
+  @keyframes pulse-7069bebf {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+  }
+  @keyframes fadeIn-7069bebf {
+      from { opacity: 0; }
+      to { opacity: 1; }
   }
   `;
   document.head.appendChild(style);
@@ -22560,8 +22614,13 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 });
 
-let mode = localStorage.getItem("mode") || "cloud";
-let loginType = localStorage.getItem("login_type") || (mode === "local" ? "local_mode" : "cloud_mode");
+const storage = (__webpack_require__(/*! uxp */ "uxp").storage);
+
+let mode = localStorage.getItem("mode") ||
+  (storage && storage.localStorage.getItem("mode")) || "cloud";
+let loginType = localStorage.getItem("login_type") ||
+  (storage && storage.localStorage.getItem("login_type")) ||
+  (mode === "local" ? "local_mode" : "cloud_mode");
 
 const SERVER_BASE_URL =
   loginType === "local_mode"
