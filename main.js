@@ -24467,9 +24467,8 @@ if (typeof document !== "undefined") {
   }
 
   function waitForBtn() {
-    var tries = 0;
     var timer = setInterval(function() {
-      if (insertAgentLink() || ++tries > 10) {
+      if (insertAgentLink()) {
         clearInterval(timer);
       }
     }, 300);
