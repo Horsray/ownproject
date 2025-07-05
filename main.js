@@ -5281,31 +5281,31 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     user-select: none;
   }
   .mode-radio input[type="radio"][data-v-19e76240] {
-    margin-right: 6px;
-    accent-color: var(--primary-color);
-    width: 14px;
-    height: 14px;
+    display: none;
   }
-  /* 👇 仅作用于 登录页中的模式选择按钮 */
-  .mode-radio .el-radio__input {
-    background-color: #2c2c30 !important;
-    border: 1px solid #666 !important;
-    border-radius: 6px !important;
+  .mode-radio span.radio-mark[data-v-19e76240] {
+    margin-right: 6px;
     width: 16px;
     height: 16px;
-    box-shadow: none !important;
+    display: inline-block;
+    border: 1px solid #666;
+    border-radius: 50%;
+    position: relative;
+    background-color: transparent;
   }
-    label.mode-radio > .el-radio__input > .el-radio__inner {
-    background-color: #2c2c30 !important;
-    border: 1px solid #666 !important;
-    border-radius: 6px !important;
-    width: 14px;
-    height: 14px;
+  .mode-radio span.radio-mark[data-v-19e76240]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: transparent;
   }
-
-  label.mode-radio > .el-radio__input.is-checked > .el-radio__inner {
-    background-color: #ff6a00 !important;
-    border-color: #ff6a00 !important;
+  .mode-radio input[type="radio"][data-v-19e76240]:checked + span.radio-mark[data-v-19e76240]::after {
+    background-color: #ff6a00;
   }
   /* 登录按钮样式 */
   .login_btn[data-v-19e76240] {
@@ -9263,6 +9263,7 @@ var render = function render() {
               },
             },
           }),
+          _c("span", { staticClass: "radio-mark" }),
           _vm._v("本地模式"),
         ]),
         _vm._v(" "),
@@ -9282,6 +9283,7 @@ var render = function render() {
               },
             },
           }),
+          _c("span", { staticClass: "radio-mark" }),
           _vm._v("云端模式"),
         ]),
       ]),
@@ -9304,8 +9306,13 @@ render._withStripped = true;
 
 //data 部分
 data() {
+  const storedMode = storage.localStorage.getItem("mode") || "cloud";
+  if (!storage.localStorage.getItem("mode")) {
+    storage.localStorage.setItem("mode", "cloud");
+    storage.localStorage.setItem("login_type", "cloud_mode");
+  }
   return {
-    mode: "", // 初始留空，由 mounted 动态设置
+    mode: storedMode,
     showLoginError: false,
     loginErrorMsg: "",
   };
@@ -24384,19 +24391,34 @@ entrypoints.setup({
 if (typeof document !== "undefined") {
   var style = document.createElement("style");
   style.innerHTML += `
-/* ✅ 美化模式选择按钮的内部方块样式 */
-.mode-radio .el-radio__inner {
-  background-color: #2c2c30 !important;
-  border: 1px solid #666 !important;
-  border-radius: 6px !important;
-  width: 14px;
-  height: 14px;
-}
-/* ✅ 当选中时，显示橙色点 */
-.mode-radio .el-radio__input.is-checked .el-radio__inner {
-  background-color: #ff6a00 !important;
-  border-color: #ff6a00 !important;
-}
+  /* ✅ 美化模式选择按钮的样式 */
+  .mode-radio input[type="radio"] {
+    display: none;
+  }
+  .mode-radio span.radio-mark {
+    margin-right: 6px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border: 1px solid #666;
+    border-radius: 50%;
+    position: relative;
+    background-color: transparent;
+  }
+  .mode-radio span.radio-mark::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: transparent;
+  }
+  .mode-radio input[type="radio"]:checked + span.radio-mark::after {
+    background-color: #ff6a00;
+  }
 `;
   document.head.appendChild(style);
 }
